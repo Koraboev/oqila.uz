@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /wp-content/uploads/2022/06/assembler_stable.pdf
+Allow: /
+
+Sitemap:

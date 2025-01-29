@@ -1,0 +1,241 @@
+.radios-to-slider {
+    background-color: #e0e0e0;
+    display: block;
+    position: relative;
+    /*margin-bottom: 80px;*/
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    -o-box-sizing: content-box;
+    box-sizing: content-box;
+    margin-top: 11px;
+}
+
+.radios-to-slider.medium {
+    height: 10px;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    -o-border-radius: 25px;
+    border-radius: 25px;
+}
+
+
+/* Levels */
+
+.radios-to-slider .slider-level {
+    background-color: #fff;
+    cursor: pointer;
+    position: absolute;
+    display: block;
+}
+
+.radios-to-slider .slider-level.slider-lower-level {
+    background-color: var(--main-color);
+}
+
+.radios-to-slider.medium .slider-level {
+    width: 32px;
+    height: 32px;
+    -webkit-border-radius: 22px;
+    -moz-border-radius: 22px;
+    -o-border-radius: 22px;
+    border-radius: 22px;
+    z-index: 2;
+    top: -11px;
+}
+
+
+/* Labels */
+
+.slider-label {
+    position: absolute;
+    display: block;
+    cursor: pointer;
+    color: #A09E9E;
+    text-align: center;
+}
+
+.slider-label-active {
+    font-weight: bold;
+    color: white;
+}
+
+.radios-to-slider.medium .slider-label {
+    bottom: 20px;
+    width: 250px;
+}
+
+
+/* Slider bar */
+
+.radios-to-slider .slider-bar {
+    background-color: var(--main-color);
+    float: left;
+    height: 100%;
+    width: 0;
+    pointer-events: none;
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    min-width: 32px !important;
+}
+
+.slider-bar.transition-enabled {
+    -webkit-transition: .2s;
+    -moz-transition: .2s;
+    -o-transition: .2s;
+    transition: .2s;
+}
+
+.radios-to-slider.medium .slider-bar {
+    -webkit-border-radius: 22px;
+    -moz-border-radius: 22px;
+    -o-border-radius: 22px;
+    border-radius: 22px;
+}
+
+
+/* Slider Knob */
+
+.slider-knob {
+    float: right;
+    background-color: var(--main-color);
+}
+
+.radios-to-slider.medium .slider-knob {
+    width: 32px;
+    height: 32px;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    -o-border-radius: 25px;
+    border-radius: 25px;
+    margin-top: -11px;
+}
+
+/*Responsive labels*/
+    
+
+    .slider-label {
+        position: absolute;
+        left: -50px;
+        font-size: 14px;
+    }
+    .radios-to-slider.medium .slider-label{
+        max-width: 76px;
+        margin-left: -29px;
+    }
+
+    /*PAGE COUNT LABELS*/
+    .label-page-count-0{
+        padding-left:  15px;
+    }
+    .label-page-count-1{
+        padding-left: 20px;
+    }
+    .label-page-count-2{
+        padding-left: 20px;
+    }
+
+    /*DESIGN LEVEL LABELS*/
+    .label-design-level-0{
+        padding-left: 22px;
+    }
+    .label-design-level-1{
+        padding-left: 28px;
+    }
+    .label-design-level-2{
+        padding-left: 28px;
+    }
+
+    /*RESPONSIVE DESIGN LABELS*/
+    .label-responsive-design-0{
+        padding-left: 25px;
+    }
+    .label-responsive-design-1{
+        padding-left: 19px;
+    }
+
+    /*CMS LABEL*/
+    .label-cms-0{
+        padding-left: 25px;
+        max-width: 100px !important;
+    }
+    .label-cms-1{
+        padding-left: 25px;
+    }
+    .label-cms-2{
+        margin-left: -36px !important;
+    }
+
+    /*LANG LABEL*/
+    .label-lang-0{
+        padding-left: 25px; 
+    }
+    .label-lang-1{
+        padding-left: 26px; 
+    }
+    .label-lang-2{
+        padding-left: 26px; 
+    }
+
+    /*ecommerce LABEL*/
+    .label-ecommerce-0{
+        padding-left: 25px;
+        max-width: 100px !important;
+    }
+    .label-ecommerce-1{
+        padding-left: 7px;
+        max-width: 100px !important;
+    }
+    .label-ecommerce-2{
+        padding-left: 7px;
+        max-width: 75px !important;
+    }
+
+    /*copy LABELS*/
+    .label-copy-0{
+        padding-left: 26px;
+        max-width: 100px !important;
+    }
+    .label-copy-1{
+        padding-left: 15px;
+        max-width: 100px !important;
+    }
+
+    /*seo labels*/
+    .label-seo-0{
+        padding-left: 25px;
+        max-width: 100px !important;
+    }
+
+    .label-seo-1{
+        padding-left: 25px;
+        max-width: 104px !important;
+    }
+    .label-seo-2{
+        padding-left: 16px;
+    }
+
+
+@media(min-width: 767px){
+
+    .label-ecommerce-0{
+        padding-left: 0px;
+        max-width: 150px !important;
+    }
+    .label-ecommerce-2{
+        padding-left: 7px;
+        max-width: 105px !important;
+    }
+    .label-full-width{
+        max-width: 151px !important;
+        margin-left: -55px !important;
+    }
+}
+
+@media (max-width: 767px){
+    .slider-label{
+        font-size: 12px;
+    }
+}
+

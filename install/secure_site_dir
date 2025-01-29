@@ -1,0 +1,45 @@
+#!/bin/bash
+
+##
+ # This file is part of the UbuntuServerSetup project.
+ #
+ # (c) 2017 OQILA COMPUTER, LLC.
+ # @author Fazliddin Juraev
+ # 
+ # For the full copyright and license information, please view the LICENSE file
+ # that was distributed with this source code.
+ ##
+ 
+# Sets correct permissions to site directory.
+
+if [ "$USER" == "root" ]
+then
+    echo -e "Error: ROOT can not run this command.\n"
+    exit 1
+fi
+
+if [ $# -eq 0 ]
+then
+    site_path=`realpath $0`;        # get absolute path of current file
+    site_path=`dirname $site_path`; # get directory of current file
+    site_path=`dirname $site_path`; # get parent directory of current file
+else
+    site_path=$1;
+fi
+
+read -p "Do you really want to secure path $site_path (y/n): " answer
+    if [ "$answer" == "y" ]
+    then
+        chown -R $USER:www-data $site_path
+        chmod -R 750 $site_path
+        chmod g+s $site_path # All new files and subdirectories will have group of the $site_path
+        find $site_path -type d -exec chmod g+s '{}' \;
+
+        chmod g+w -R "${site_path}/wp-content"
+        chmod g+w "${site_path}/.htaccess"
+        chmod g+w "${site_path}/wp-config.php"
+    else
+        exit 1;
+    fi
+
+exit 0;

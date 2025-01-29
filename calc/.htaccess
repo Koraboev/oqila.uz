@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Restricted Files"
+AuthUserFile /var/www/oqila/vhost/oqila.uz/calc/.htpasswd
+Require valid-user

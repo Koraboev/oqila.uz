@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OQILA SB ustama foizini kirim foiziga aylantirish</title>
+
+    <script type='text/javascript' src="jquery-3.6.0.min.js"></script>
+
+    <style type="text/css">
+        .copy
+        {
+            position:absolute;
+            bottom:0;
+        }
+
+        .container{}
+
+        .container td
+        {
+            padding: 10px;
+        }
+
+        td, th {
+            vertical-align:top;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        let osuvchi_ustama_foiz = [
+            ["O'suvchi ustama narx foizi","Passive", "Active", "Passive-Reselling", "Active-Reselling"],
+            ['SB narx <= Tavsiya Narx',         0.15, 0.21, 0.14, 0.19],
+            ['SB narx <= Tavsiya Narx + 20%',   0.20, 0.26, 0.18, 0.24],
+            ['SB narx > Tavsiya Narx + 20%',    0.25, 0.31, 0.23, 0.29],
+        ];
+
+        let oddiy_ustama_foizi = [
+            ["Oddiy ustama narx foizi","Passive", "Active", "Passive-Reselling", "Active-Reselling"],
+            ['Barcha holatlar uchun',         0.15, 0.21, 0.14, 0.19]
+        ];
+
+        $(document).ready(function()
+        {
+            let d_table = array_to_table(osuvchi_ustama_foiz) + '<br>' + array_to_table(oddiy_ustama_foizi);
+            $("#tables").html(d_table);
+        });
+        
+
+        function array_to_table(arr)
+        {
+            let tb = "<table border='1' style='margin-left: 150px'>";
+
+            for(var i = 0; i < arr.length; i++)
+            {
+                var row = arr[i];
+                tb = tb + "<tr>";
+                for(var j = 0; j < row.length; j++)
+                {
+                    tb = tb + "<td>" + format_percent(row[j]) + "</td>";
+                }
+                tb = tb + "</tr>";
+            }
+
+            tb = tb + "</table>";
+
+            return tb;
+        }
+
+        function format_percent(percent)
+        {
+            if(typeof percent == 'number')
+                return Math.floor(percent * 100 * 100) / 100 + '%';
+            else
+                return percent;
+        }
+
+        function calc()
+        {
+            ////////////////
+            let foiz_tur = parseInt($("#foiz_tur").val());
+            if(!foiz_tur || foiz_tur < 1 || foiz_tur > 2)
+            {
+                alert("Ustama narx foiz turini tanlang");
+                return 0;
+            }
+
+            ////////////////
+            let sb_narx = parseInt($("#sb_narx").val());
+            if(!sb_narx)
+            {
+                alert("SB narxni kiritmadingiz");
+                return 0;
+            }
+
+            ////////////////
+            let tavsiya_narx = parseInt($("#tavsiya_narx").val());
+            if(!tavsiya_narx)
+            {
+                alert("Tavsiya narxni kiritmadingiz");
+                return 0;
+            }
+
+            ////////////////
+            let ib_narx = parseInt($("#ib_narx").val());
+            if(!ib_narx)
+            {
+                alert("IB narxni kiritmadingiz");
+                return 0;
+            }
+
+            ///////////////
+            let j = parseInt($("#sotuv_usuli").val());
+            if(!j || j<1 || j > 4)
+            {
+                alert("Sotuv usulini tanlamadiz");
+                return 0;
+            }
+
+            ///////////////////////
+            if(foiz_tur == 1)
+            {
+                if(sb_narx <= tavsiya_narx)
+                    i = 1;
+                else if(sb_narx > tavsiya_narx && sb_narx <= tavsiya_narx * 1.2)
+                    i = 2;
+                else
+                    i = 3;
+
+                ustama_foiz = osuvchi_ustama_foiz[i][j];
+            }
+            else
+            {
+                ustama_foiz = osuvchi_ustama_foiz[1][j];
+            }
+
+            xodim_ulush = (sb_narx - ib_narx) *  ustama_foiz;
+            kirim_foiz = xodim_ulush / sb_narx;
+
+            $("#ustama_foiz").text(format_percent(ustama_foiz));
+            $("#kirim_foiz").text(format_percent(kirim_foiz));
+            $("#xodim_ulush").text(xodim_ulush);
+
+        }
+
+    </script>
+
+</head>
+<body>
+    <table class="container">
+        <tr>
+            <td class="container-td">
+
+                <form>
+
+                    <label for="foiz_tur">Ustama narx foiz turi: </label>
+                    <select name="foiz_tur" id="foiz_tur">
+                        <option value="">Tanlang</option>
+                        <option value="1">O'suvchi ustama narx foizi</option>
+                        <option value="2">Oddiy ustama narx foizi</option>
+                    </select><br><br>
+
+                    <label for="sb_narx">SB narx: </label>
+                    <input type="text" id="sb_narx" name="sb_narx"><br><br>
+
+                    <label for="tavsiya_narx">Tavsiya narx: </label>
+                    <input type="text" id="tavsiya_narx" name="tavsiya_narx"><br><br>
+                    
+                    <label for="ib_narx">IB narx: </label>
+                    <input type="text" id="ib_narx" name="ib_narx"><br><br>
+
+                    <label for="sotuv_usuli">Sotuv usuli: </label>
+                    <select name="sotuv_usuli" id="sotuv_usuli">
+                        <option value="">Tanlang</option>
+                        <option value="1">Passive</option>
+                        <option value="2">Active</option>
+                        <option value="3">Passive-Reselling</option>
+                        <option value="4">Active-Reselling</option>
+                    </select><br><br>
+
+                    <hr>
+
+                    <p>Ustama foizi: <span id='ustama_foiz'></span></p>
+                    <p><b>Kirim foizi: <span id='kirim_foiz'></span></b></p>
+                    <p>Xodim ulushi: <span id='xodim_ulush'></span></p><br>
+
+                    <button onclick="calc();return false">Hisoblash</button>
+                </form>
+                                
+            </td>
+
+            <td class="container-td">
+                <div id='tables'></div>
+            </td>
+        </tr>
+    </table>
+
+    <p class="copy">&copy 2022, OQILA</p>
+</body>
+</html>
+

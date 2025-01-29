@@ -1,0 +1,270 @@
+# BEGIN WpFastestCache
+# Modified Time: 11-10-24 9:11:59
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteCond %{HTTPS} =on
+RewriteCond %{HTTP_HOST} ^oqila.uz
+# Start WPFC Exclude
+# End WPFC Exclude
+# Start_WPFC_Exclude_Admin_Cookie
+RewriteCond %{HTTP:Cookie} !wordpress_logged_in_[^\=]+\=root_oqila
+# End_WPFC_Exclude_Admin_Cookie
+RewriteCond %{HTTP_HOST} ^oqila.uz
+RewriteCond %{HTTP_USER_AGENT} !(facebookexternalhit|WP_FASTEST_CACHE_CSS_VALIDATOR|Twitterbot|LinkedInBot|WhatsApp|Mediatoolkitbot)
+RewriteCond %{HTTP_USER_AGENT} !(WP\sFastest\sCache\sPreload(\siPhone\sMobile)?\s*Bot)
+RewriteCond %{REQUEST_METHOD} !POST
+RewriteCond %{REQUEST_URI} !(\/){2}$
+RewriteCond %{REQUEST_URI} ![^\/]+\/$
+RewriteCond %{QUERY_STRING} !.+
+RewriteCond %{HTTP:Cookie} !comment_author_
+RewriteCond %{HTTP:Cookie} !safirmobilswitcher=mobil
+RewriteCond %{HTTP:Profile} !^[a-z0-9\"]+ [NC]
+RewriteCond %{DOCUMENT_ROOT}/wp-content/cache/%{HTTP_HOST}/all/$1/index.html -f [or]
+RewriteCond /var/www/oqila/vhost/oqila.uz/wp-content/cache/%{HTTP_HOST}/all/$1/index.html -f
+RewriteRule ^(.*) "/wp-content/cache/%{HTTP_HOST}/all/$1/index.html" [L]
+</IfModule>
+<FilesMatch "index\.(html|htm)$">
+AddDefaultCharset UTF-8
+<ifModule mod_headers.c>
+FileETag None
+Header unset ETag
+Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+Header set Pragma "no-cache"
+Header set Expires "Mon, 29 Oct 1923 20:30:00 GMT"
+</ifModule>
+</FilesMatch>
+# END WpFastestCache
+
+
+
+
+
+
+
+
+
+# BEGIN WordPress
+# The directives (lines) between "BEGIN WordPress" and "END WordPress" are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{SERVER_PORT} !^443$
+    RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+    RewriteBase /
+    RewriteRule ^index\.php$ - [L]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . /index.php [L]
+</IfModule>
+
+# END WordPress
+
+<IfModule  mod_rewrite.c>
+    #RewriteEngine  On
+    #remove  trailing  slashes
+    RewriteCond  %{REQUEST_FILENAME}  !-d
+    RewriteRule  ^(.*)/$  /$1  [L,R]  #  <-  for  test,  for  prod  use  [L,R=301]
+</IfModule>
+
+
+<IfModule mod_rewrite.c>
+    #RewriteEngine on
+
+    ## Redirect from the `http://` -> `https://`
+    ## Uncomment below if site has ssl sertificate
+    
+    #RewriteCond %{HTTPS} !=on
+    #RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+    ## Prevents serving dotfiles. It was universal for all
+    ## dotfiles, but since Letsencrypt wants to access dotfiles
+    ## while validation we protect only those files.
+    ## OqilaOS server Apache configurations already have this
+    ## rule. So uncomment it when you are serving the app in other
+    ## hostings.
+    #RedirectMatch 403 /\.git.*$
+</IfModule>
+
+
+Header unset ETag
+FileETag None
+
+#-----------------------------------------------------------------
+
+## Lets redirect old portfolio pages
+
+RedirectMatch 301   "^/portfolio/[0-9]+$"       "/ish-namunalari"
+RedirectMatch 301   "^/ru/portfolio/[0-9]+$"    "/ru/portfolio"
+Redirect 301        "/ru/portfolio-ru"          "/ru/portfolio"
+
+#-----------------------------------------------------------------
+
+## Redirect old, removed blog posts to post list
+
+Redirect 301   "/post/barcha-xotin-qizlarni-8-mart-bilan-tabriklaymiz"    "/blog"
+Redirect 301   "/ru/post/http-vs-https-i-ih-otnosheniya-s-google-chrome"  "/ru/http-vs-https-i-ikh-otnosheniya-s-google-chrome"
+Redirect 301   "/ru/post/s-8-martom"                                      "/ru/marketing-blog"
+Redirect 301   "/ru/novshestvo"                                           "/ru/marketing-blog"
+Redirect 301   "/post/qanday-qilib-veb-sahifa-yaratish-mumkin"            "/qanday-qilib-veb-sahifa-yaratish-mumkin"
+
+
+#-----------------------------------------------------------------
+
+## Redirect deprecated pages to post list
+
+#? replace ru to ru/o-nas when it is ready
+Redirect 301   "/ru/o-kompanii"                     "/ru/o-nas"
+Redirect 301   "/ru/bannernaya-reklama"             "/ru/"	
+Redirect 301   "/ru/зачем-обратная-связь-на-сайте"  "/ru/zachem-obratnaya-svyaz-na-sayte"
+Redirect 301   "/s/turistik-firma-uchun-veb-sayt-yaratish" "/s/veb-sayt-yaratish-turizm"
+Redirect 301   "/ru/company-projects-ru"       "/ru/portfolio"
+Redirect 301   "/sotsial-tarmoqlarda-reklama"       "/"
+Redirect 301   "/ru/oqilacms"       "/ru/"
+
+# bot
+Redirect 301   "/telegram-uchun-bot-yaratish"       "/"
+Redirect 301   "/ru/razrabotka-telegram-botov"      "/ru/"
+
+# seo
+Redirect 301   "/seo"                               "/s/seo"
+Redirect 301   "/ru/seo-v-tashkente"                "/ru/s/seo-prodvijenie-saytov"
+
+# landing
+Redirect 301   "/ru/sozdanie-saytov/landing-page"   "/ru/s/landing-page"
+Redirect 301   "/sayt-yaratish/landing-page"        "/s/landing-page-yaratish"
+
+# visit
+Redirect 301   "/sayt-yaratish/sayt-vizitka"        "/s/sayt-vizitka-yaratish"
+
+# ecom
+Redirect 301   "/sayt-yaratish/internet-dokon"      "/s/internet-dokon-ochish"
+Redirect 301   "/ru/sozdanie-saytov/internet-magazin" "/ru/s/internet-magazin-sozdanie"
+
+# web
+Redirect 301   "/ru/sozdanie-saytov"                "/ru/s/razrabotka-saytov"
+Redirect 301   "/sayt-yaratish"                     "/s/sayt-yaratish"
+
+# mobile
+Redirect 301   "/mobil-ilovalar-yaratish"           "/"
+Redirect 301   "/ru/razrabotka-mobilnix-prilojeniy" "/ru/"
+
+
+Redirect 301   "/matnli-reklama"                    "/s/kopirayting"
+Redirect 301   "/oqilacms"                          "/"
+Redirect 301   "/s/ishlab-chiqaruvchilar-uchun-sayt" "/s/sayt-ochib-berish-ishlab-chiqarish"
+Redirect 301   "/kompaniya-haqida"                  "/biz-haqimizda"
+
+# design
+RedirectMatch 301   "^/web-design/[0-9]+$"        "/s/veb-dizayn"
+RedirectMatch 301   "^/ru/web-design/[0-9]+$"     "/ru/s/dizayn-sayta"
+
+Redirect 301       "/web-design"              "/s/veb-dizayn"
+Redirect 301       "/ru/web-design"           "/ru/s/dizayn-sayta"
+
+Redirect 301       "/internet-marketing-va-sayt-ochish-narxlari"           "/internet-marketing"
+Redirect 301       "/s/google-adwords"          			   "/s/google-reklama-xizmati"
+Redirect 301	   "/crm-nima-oqilauz" 					   "/crm-nima"
+
+Redirect 301       "/eng-kop-ishlatiladigan-9-muhim-css-xususiyatlari"     "/css-ni-organing"
+Redirect 301       "/web-sahifa-yaratish-xizmati"           		   "/s/veb-sahifa-yaratish"
+
+Redirect 301       "/ru/web/"           "/ru"
+Redirect 301       "https://tiyin.oqila.uz/news/moviy-sokka-blue-chip-nima.html"           "/"
+Redirect 301       "https://tiyin.oqila.uz/news/moviy-sokka-blue-chip-nima.html"           "/"
+Redirect 301       "/company-projects-uz"           "/ish-namunalari"
+
+Redirect 301       "/s/sayt-ochish-korporativ"           "/s/sayt-ochish"
+Redirect 301       "/s/sayt-yaratish-yuridik"           "/s/googleda-sayt-ochish"
+Redirect 301       "/s/brend-nomi"           "/s/brending"
+
+Redirect 301       "/uz"           "/"
+Redirect 301       "/google-advertising"           "/ru/reklama-v-google-seo-prodvijenie"
+Redirect 301       "/css-ni-organing"           "/css-haqida"
+Redirect 301       "/s/landing-page-2"           "/s/landing-page-yaratish"
+Redirect 301       "/s/design-logo-uz"           "/s/logotip-yasash"
+Redirect 301       "/s/design-web-uz"           "/s/veb-dizayn"
+Redirect 301       "/s/yangiliklar-sayti-tuzish"           "/s/sayt-tuzish-yangiliklar"
+Redirect 301       "/portfolio/53/"           "/case/durable-beton"
+Redirect 301       "/ru/s/neyming-brending-asosi"           "/s/brending"
+Redirect 301       "/ru/s/design-web-ru"           "/ru/studiya-veb-dizayna"
+Redirect 301       "/ru/s/design-logo-ru"           "/ru/s/razrabotka-logotipa"
+Redirect 301       "/ru/s/razrabotka-saytov/sayt-vizitka/"           "/ru/s/sayt-vizitka"
+Redirect 301       "/ru/s/написание-рекламных-текстов"           "/ru/s/copywriting"
+Redirect 301       "/ru/s/создание-новостного-сайта"           "/ru/s/sozdanie-sayta-novosti"
+Redirect 301       "/ru/s/создание-сайт-визитки"           "/ru/s/sayt-vizitka"
+Redirect 301       "/ru/s/создание-одностраничного-сайта"           "/ru/s/sozdaniye-odnostranichnogo-sayta"
+Redirect 301       "/ru/s/создание-сайтов-для-производителей"           "/ru/s/sozdanie-saytov-dlya-proizvoditeley"
+Redirect 301       "/ru/s/seo-раскрутка-интернет-магазина"           "/ru/s/seo-optimizatsiya"
+Redirect 301       "/ru/s/seo-для-локального-бизнеса"           "/ru/s/seo-optimizatsiya"
+Redirect 301       "/ru/s/разработка-сайтов-для-турфирмы"           "/ru/s/razrabotka-saytov-turizm"
+Redirect 301       "/ru/s/создание-сайта-для-юридических-услуг"           "/ru/s/sozdat-sayt-yuridicheskix-uslug"
+Redirect 301       "/ru/4-технологии-которые-навсегда-изменят-e"    "/ru/4texnologii-kotoryye-navsegda-izmenyat-e-commerce"
+Redirect 301       "/ru/post/pochemu-neobhodima-forma-obratnoj-svyazi"           "/ru/zachem-obratnaya-svyaz-na-sayte"
+
+Redirect 301       "/ru/s/создание-сайта-для-медицинского-цент"  "/ru/s/sozdanie-saytov-dlya-meditsinskogo-sentra"
+Redirect 301       "/ru/s/razrabotka-saytov/eksklyuzivnie-sayti"  "/ru/s/sozdanie-saytov-eksklyuzivniy"
+Redirect 301       "/ru/http-vs-https-и-их-отношения-с-google-chrome"  "/ru/http-vs-https-i-ikh-otnosheniya-s-google-chrome"
+Redirect 301       "/ru/post/4-tehnologii-e-commerce"  "/ru/4texnologii-kotoryye-navsegda-izmenyat-e-commerce"
+Redirect 301       "/ru/post/sajt-schitaetsya-produktom-ili-uslugoj"  "/ru/marketing-blog"
+Redirect 301       "/ru/post/dobavlen-novy-j-tarif-gotovy-e-sajty"  "/ru/marketing-blog"
+Redirect 301       "/post/tayyor-saytlar-deb-nomlanuvchi-yangi-tarif-qo-shildi"  "/s/sayt-yaratish"
+Redirect 301       "/internet-reklama-agentligi"  "/"
+Redirect 301 "/ru/s/razrabotka-naming" "/ru/s/brending-neyming"
+Redirect 301 "/ru/studiya-veb-dizayna" "/ru/brendingovoe-agenstvo"
+
+# BEGIN DS-XML-RPC-FIX-HOTLINK
+# The directives (lines) between "BEGIN DS-XML-RPC-FIX-HOTLINK" and "END DS-XML-RPC-FIX-HOTLINK" are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
+
+RewriteEngine on
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^http://oqila.loc [NC]
+RewriteCond %{HTTP_REFERER} !^http(s)?://(www\.)?google.com [NC]
+RewriteRule \.(jpg|jpeg|png|gif)$ – [NC,F,L] 
+# END DS-XML-RPC-FIX-HOTLINK
+# BEGIN DS-XML-RPC-API
+# The directives (lines) between "BEGIN DS-XML-RPC-API" and "END DS-XML-RPC-API" are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
+<Files xmlrpc.php>
+order deny,allow
+deny from all
+
+</Files>
+
+# END DS-XML-RPC-API
+
+# BEGIN NON_LSCACHE
+## LITESPEED WP CACHE PLUGIN - Do not edit the contents of this block! ##
+## LITESPEED WP CACHE PLUGIN - Do not edit the contents of this block! ##
+# END NON_LSCACHE
+
+# BEGIN LSCACHE
+## LITESPEED WP CACHE PLUGIN - Do not edit the contents of this block! ##
+<IfModule LiteSpeed>
+RewriteEngine on
+CacheLookup on
+RewriteRule .* - [E=Cache-Control:no-autoflush]
+RewriteRule \.litespeed_conf\.dat - [F,L]
+
+### marker CACHE RESOURCE start ###
+RewriteRule wp-content/.*/[^/]*(responsive|css|js|dynamic|loader|fonts)\.php - [E=cache-control:max-age=3600]
+### marker CACHE RESOURCE end ###
+
+### marker FAVICON start ###
+RewriteRule favicon\.ico$ - [E=cache-control:max-age=86400]
+### marker FAVICON end ###
+
+### marker DROPQS start ###
+CacheKeyModify -qs:fbclid
+CacheKeyModify -qs:gclid
+CacheKeyModify -qs:utm*
+CacheKeyModify -qs:_ga
+### marker DROPQS end ###
+
+</IfModule>
+## LITESPEED WP CACHE PLUGIN - Do not edit the contents of this block! ##
+# END LSCACHE
